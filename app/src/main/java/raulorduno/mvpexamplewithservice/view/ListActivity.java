@@ -38,6 +38,6 @@ public class ListActivity extends AppCompatActivity {
 		mRecyclerView.setAdapter(mAdapter);
 	}
 
-	// TODO : lifecycles & next view
+	// TODO : lifecycles, caching and next view
 
 }
