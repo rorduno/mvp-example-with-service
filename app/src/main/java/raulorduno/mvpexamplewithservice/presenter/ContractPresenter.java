@@ -1,5 +1,7 @@
 package raulorduno.mvpexamplewithservice.presenter;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -8,6 +10,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import raulorduno.mvpexamplewithservice.constants.Constants;
+import raulorduno.mvpexamplewithservice.model.Users;
 
 /*
 Presenter is the core of the architecture
@@ -17,12 +20,12 @@ Presenter is the core of the architecture
  - updates model and view
 */
 public class ContractPresenter implements Contract.Presenter {
-
+	// service and json
+	private final OkHttpClient client = new OkHttpClient();
+	private final Gson gson = new Gson();
 	// connect view with model
 	private Contract.View view;
-
-	// service
-	private final OkHttpClient client = new OkHttpClient();
+	private Users users;
 
 	public ContractPresenter(Contract.View view) {
 		this.view = view;
@@ -43,7 +46,9 @@ public class ContractPresenter implements Contract.Presenter {
 					if (!response.isSuccessful())
 						throw new IOException("Unexpected code " + response);
 					else {
-						view.updateListView(response.body().string());
+						users = gson.fromJson(response.body().charStream(), Users.class);
+						// update view with list users from service
+						view.updateListView(users.getUserModels());
 						System.out.println(response.body().string());
 					}
 				}

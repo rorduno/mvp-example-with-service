@@ -17,6 +17,14 @@ public class UserModel implements Serializable {
 		this.name = name;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
 	@Override
 	public String toString() {
 		return "Name : " + name + "\nEmail : " + email;

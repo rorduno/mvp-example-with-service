@@ -5,20 +5,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import java.io.Serializable;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import raulorduno.mvpexamplewithservice.R;
+import raulorduno.mvpexamplewithservice.model.UserModel;
 import raulorduno.mvpexamplewithservice.presenter.Contract;
 import raulorduno.mvpexamplewithservice.presenter.ContractPresenter;
 
-// View - Activity will implement the View from the "Contract" or "Presenter"
+// view - activity will implement the view from the "contract" or "presenter"
 public class MainActivity extends AppCompatActivity implements Contract.View {
 	public static final String KEY = "KEY";
 
-	// Declare presenter, this presenter will update the Model (pass data)
-	// which will then update view
+	// declare presenter, this presenter will update the model (pass data) which will update view
 	private Contract.Presenter presenter;
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
 		setContentView(R.layout.activity_main);
 		ButterKnife.bind(this);
 
-		// pass View reference to presenter
+		// pass view reference to presenter
 		presenter = new ContractPresenter(this);
 
 	}
@@ -36,10 +38,10 @@ public class MainActivity extends AppCompatActivity implements Contract.View {
 	}
 
 	@Override
-	public void updateListView(String data) {
-		// change view, pass data to next activity
+	public void updateListView(List<UserModel> users) {
+		// change view, pass data to next activity, make Serializable
 		Intent intent = new Intent(this, ListActivity.class);
-		intent.putExtra(KEY, data);
+		intent.putExtra(KEY,(Serializable) users);
 		startActivity(intent);
 	}
 }
